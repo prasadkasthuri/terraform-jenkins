@@ -19,7 +19,7 @@ resource "aws_vpc" "DevVPC" {
 }
 
 resource "aws_subnet" "public-subnet-1" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   availability_zone = "us-east-1a"
   map_public_ip_on_launch = true
   cidr_block = "172.17.1.0/24"
@@ -29,7 +29,7 @@ resource "aws_subnet" "public-subnet-1" {
 }
 
 resource "aws_subnet" "public-subnet-2" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   map_public_ip_on_launch = true
   availability_zone = "us-east-1b"
   cidr_block = "172.17.2.0/24"
@@ -39,7 +39,7 @@ resource "aws_subnet" "public-subnet-2" {
 }
 
 resource "aws_subnet" "public-subnet-3" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   map_public_ip_on_launch = true
   availability_zone = "us-east-1c"
   cidr_block = "172.17.3.0/24"
@@ -49,7 +49,7 @@ resource "aws_subnet" "public-subnet-3" {
 }
 
 resource "aws_subnet" "private-subnet-1" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   availability_zone = "us-east-1a"
   cidr_block = "172.17.4.0/24"
   tags = {
@@ -58,7 +58,7 @@ resource "aws_subnet" "private-subnet-1" {
 }
 
 resource "aws_subnet" "private-subnet-2" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   availability_zone = "us-east-1b"
   cidr_block = "172.17.5.0/24"
   tags = {
@@ -67,7 +67,7 @@ resource "aws_subnet" "private-subnet-2" {
 }
 
 resource "aws_subnet" "private-subnet-3" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   availability_zone = "us-east-1c"
   cidr_block = "172.17.6.0/24"
   tags = {
@@ -76,10 +76,10 @@ resource "aws_subnet" "private-subnet-3" {
 }
 
 resource "aws_route_table" "public-rtbl" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.TerraformVPC-IGW.id
+    gateway_id = aws_internet_gateway.DevVPC-IGW.id
   }
   tags = {
     Name = "public-rtbl"
@@ -87,16 +87,16 @@ resource "aws_route_table" "public-rtbl" {
 }
 
 resource "aws_route_table" "private-rtbl" {
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   tags = {
     Name = "private-rtbl"
   }
 }
 
-resource "aws_internet_gateway" "TerraformVPC-IGW" {
-  vpc_id = aws_vpc.TerraformVPC.id
+resource "aws_internet_gateway" "DevVPC-IGW" {
+  vpc_id = aws_vpc.DevVPC.id
   tags = {
-    Name = "TerraformVPC-IGW"
+    Name = "DevVPC-IGW"
   }
 }
 
@@ -131,7 +131,7 @@ resource aws_route_table_association "private-subnet-3-association"{
 resource "aws_security_group" "Allow_all_SG" {
   name = "Allow_all_SG"
   description = "Allow all inbound traffic"
-  vpc_id = aws_vpc.TerraformVPC.id
+  vpc_id = aws_vpc.DevVPC.id
   tags = {
     Name = "Allow_all_SG"
   }
